@@ -1,13 +1,15 @@
 package components;
 
-import Jade.Component;
+import jade.Component;
+
+import java.awt.font.FontRenderContext;
 
 public class FontRenderer extends Component {
 
     @Override
     public void start() {
-        if (gameObject.getComponent(SpriteRenderer.class) != null){
-            System.out.println("Found Font Renderer");
+        if (gameObject.getComponent(SpriteRenderer.class) != null) {
+            System.out.println("Found Font Renderer!");
         }
     }
 

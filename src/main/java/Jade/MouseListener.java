@@ -1,4 +1,4 @@
-package Jade;
+package jade;
 
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
@@ -20,10 +20,11 @@ public class MouseListener {
     }
 
     public static MouseListener get() {
-        if(instance == null) {
-            instance = new MouseListener();
+        if (MouseListener.instance == null) {
+            MouseListener.instance = new MouseListener();
         }
-        return instance;
+
+        return MouseListener.instance;
     }
 
     public static void mousePosCallback(long window, double xpos, double ypos) {
@@ -35,7 +36,7 @@ public class MouseListener {
     }
 
     public static void mouseButtonCallback(long window, int button, int action, int mods) {
-        if(action == GLFW_PRESS) {
+        if (action == GLFW_PRESS) {
             if (button < get().mouseButtonPressed.length) {
                 get().mouseButtonPressed[button] = true;
             }
@@ -47,9 +48,9 @@ public class MouseListener {
         }
     }
 
-    public static void mouseScrollCallback(long window, double scrollx, double scrolly) {
-        get().scrollX = scrollx;
-        get().scrollY = scrolly;
+    public static void mouseScrollCallback(long window, double xOffset, double yOffset) {
+        get().scrollX = xOffset;
+        get().scrollY = yOffset;
     }
 
     public static void endFrame() {

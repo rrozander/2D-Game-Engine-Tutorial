@@ -1,23 +1,23 @@
-package Jade;
+package jade;
 
-import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.Version;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.opengl.GL;
 import util.Time;
 
-import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
-    private final int width, height;
-    private final String title;
+    private int width, height;
+    private String title;
     private long glfwWindow;
 
     public float r, g, b, a;
+    private boolean fadeToBlack = false;
 
-    // So only 1 instance of the window can be created
     private static Window window = null;
 
     private static Scene currentScene;
@@ -26,9 +26,9 @@ public class Window {
         this.width = 1920;
         this.height = 1080;
         this.title = "Mario";
-        r = 1;
-        b = 1;
-        g = 1;
+        r = 0;
+        b = 0;
+        g = 0;
         a = 1;
     }
 
@@ -51,10 +51,11 @@ public class Window {
     }
 
     public static Window get() {
-        if (window == null) {
-            window = new Window();
+        if (Window.window == null) {
+            Window.window = new Window();
         }
-        return window;
+
+        return Window.window;
     }
 
     public static Scene getScene() {
@@ -62,7 +63,7 @@ public class Window {
     }
 
     public void run() {
-        System.out.println("LWJGL "+ Version.getVersion() + "!");
+        System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
         init();
         loop();
@@ -71,46 +72,43 @@ public class Window {
         glfwFreeCallbacks(glfwWindow);
         glfwDestroyWindow(glfwWindow);
 
-        // Terminate GLFW and free the error callback
+        // Terminate GLFW and the free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
     }
 
     public void init() {
-        // Setup error callback
+        // Setup an error callback
         GLFWErrorCallback.createPrint(System.err).set();
 
         // Initialize GLFW
         if (!glfwInit()) {
-            throw new IllegalStateException("Unable to initialize GLFW!");
+            throw new IllegalStateException("Unable to initialize GLFW.");
         }
 
-        // Configure GLFW. Set properties of window
+        // Configure GLFW
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
-        // create the window
-        // returns memory address of window
+        // Create the window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
-        if (glfwWindow== NULL) {
-            throw new IllegalStateException("Failed to create GLFW window!");
+        if (glfwWindow == NULL) {
+            throw new IllegalStateException("Failed to create the GLFW window.");
         }
 
-        // Setting event listener callbacks
-        // sets mouse position callback to the one created in MouseListener. "MouseListener::mousePosCallback" is shorthand for lambda function
         glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
         glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 
-        // Make the OpenGl context current
+        // Make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
-        // Enable v-sync (locks refresh to the refresh-rate of the monitor)
+        // Enable v-sync
         glfwSwapInterval(1);
 
-        // Make window visible
+        // Make the window visible
         glfwShowWindow(glfwWindow);
 
         // This line is critical for LWJGL's interoperation with GLFW's
@@ -126,11 +124,10 @@ public class Window {
     public void loop() {
         float beginTime = Time.getTime();
         float endTime;
-        // dt is time for each loop to run
         float dt = -1.0f;
 
-        while(!glfwWindowShouldClose(glfwWindow)){
-            // Pull events
+        while (!glfwWindowShouldClose(glfwWindow)) {
+            // Poll events
             glfwPollEvents();
 
             glClearColor(r, g, b, a);

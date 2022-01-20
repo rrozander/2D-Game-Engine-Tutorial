@@ -4,7 +4,7 @@ plugins {
 
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.13
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -15,12 +15,8 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
-test {
-    useJUnitPlatform()
-}
-
 project.ext.lwjglVersion = "3.2.3"
-project.ext.jomlVersion = "1.10.2"
+project.ext.jomlVersion = "1.9.23"
 project.ext.lwjglNatives = "natives-windows"
 
 dependencies {

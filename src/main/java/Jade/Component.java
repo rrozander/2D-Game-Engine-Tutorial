@@ -1,4 +1,4 @@
-package Jade;
+package jade;
 
 public abstract class Component {
 
@@ -9,5 +9,4 @@ public abstract class Component {
     }
 
     public abstract void update(float dt);
-
 }

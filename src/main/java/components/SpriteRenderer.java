@@ -1,6 +1,6 @@
 package components;
 
-import Jade.Component;
+import jade.Component;
 import org.joml.Vector4f;
 
 public class SpriteRenderer extends Component {
@@ -13,7 +13,6 @@ public class SpriteRenderer extends Component {
 
     @Override
     public void start() {
-
     }
 
     @Override
@@ -21,7 +20,7 @@ public class SpriteRenderer extends Component {
 
     }
 
-    public Vector4f getColor(){
+    public Vector4f getColor() {
         return this.color;
     }
 }
